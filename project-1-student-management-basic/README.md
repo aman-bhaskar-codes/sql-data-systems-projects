@@ -1,254 +1,88 @@
 <p align="center">
-  <img src="https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL" />
-  <img src="https://img.shields.io/badge/SQL-CC2927?style=for-the-badge&logo=microsoftsqlserver&logoColor=white" alt="SQL" />
-  <img src="https://img.shields.io/badge/Database-FF6F00?style=for-the-badge&logo=databricks&logoColor=white" alt="Database" />
-  <img src="https://img.shields.io/badge/Data%20Engineering-0A0A0A?style=for-the-badge&logo=apache&logoColor=white" alt="Data Engineering" />
+  <img src="docs/banner.png" alt="Student Management System Banner" width="700" />
 </p>
 
-<h1 align="center">📘 Student Management System</h1>
+<h1 align="center">🎓 Student Management SQL System</h1>
+
+<h3 align="center">A Large-Scale PostgreSQL Academic Database Simulation</h3>
 
 <p align="center">
-  <strong>A large-scale relational academic database built with PostgreSQL</strong>
+  <img src="https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white" />
+  <img src="https://img.shields.io/badge/SQL-CC2927?style=for-the-badge&logo=microsoftsqlserver&logoColor=white" />
+  <img src="https://img.shields.io/badge/600K%2B%20Records-blue?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/10%20Tables-green?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/10%20Queries-orange?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Learning%20Project-purple?style=for-the-badge" />
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Records-600%2C000%2B-blue?style=flat-square" alt="Records" />
-  <img src="https://img.shields.io/badge/Tables-10-green?style=flat-square" alt="Tables" />
-  <img src="https://img.shields.io/badge/Queries-10-orange?style=flat-square" alt="Queries" />
-  <img src="https://img.shields.io/badge/License-MIT-yellow?style=flat-square" alt="License" />
+  A production-style relational database that models a complete university system —<br/>
+  from student enrollment to exam grading — built entirely in <strong>SQL</strong> with <strong>PostgreSQL</strong>.<br/>
+  Designed as a hands-on learning project for mastering <strong>database design</strong>, <strong>large-scale data generation</strong>, and <strong>analytical queries</strong>.
 </p>
 
 ---
 
-## 📋 Table of Contents
+## ⚡ Feature Highlights
 
-- [🔭 Overview](#-overview)
-- [🚀 Getting Started](#-getting-started)
-- [🏗️ Database Architecture](#️-database-architecture)
-- [📊 Dataset Scale](#-dataset-scale)
-- [🔗 Entity-Relationship Diagram](#-entity-relationship-diagram)
-- [🧬 Schema Design](#-schema-design)
-- [⚙️ Data Generation Strategy](#️-data-generation-strategy)
-- [🔍 Analytical Queries](#-analytical-queries)
-- [📁 Repository Structure](#-repository-structure)
-- [🧠 SQL Concepts Demonstrated](#-sql-concepts-demonstrated)
-- [🎯 Learning Objectives](#-learning-objectives)
-- [🛠️ Technologies Used](#️-technologies-used)
-- [📈 Future Improvements](#-future-improvements)
-
----
-
-## 🔭 Overview
-
-This project implements a **relational academic database system** using **PostgreSQL**, designed to simulate a realistic, large-scale university environment.
-
-The system models core academic entities — **students**, **departments**, **courses**, **faculty members**, **enrollments**, **examinations**, and **grades** — all connected through normalized foreign-key relationships. The dataset is generated **synthetically** using PostgreSQL's built-in functions to produce **100,000+ student records** and **hundreds of thousands** of related rows across 10 tables.
-
-### 💡 What This Project Demonstrates
-
-| Skill Area | Description |
-|:---|:---|
-| 🏗️ **Relational Design** | Normalized schema modeling with primary & foreign keys |
-| 📦 **Large Dataset Generation** | Programmatic data seeding via `generate_series()` |
-| 📊 **Analytical SQL** | Complex multi-table JOINs, aggregations & ranking |
-| 🔒 **Data Integrity** | CHECK constraints, UNIQUE constraints & referential integrity |
-| ⚡ **Performance** | Strategic indexing for query optimization |
-
-> This project serves as a **foundation exercise** for database engineering and data analytics, forming the first module in a progressive series of SQL projects.
+<table>
+  <tr>
+    <td align="center">🏛️<br/><strong>Realistic University Model</strong><br/><sub>10 normalized tables with full referential integrity</sub></td>
+    <td align="center">📦<br/><strong>Large Dataset Simulation</strong><br/><sub>600K+ synthetic records generated with pure SQL</sub></td>
+    <td align="center">📊<br/><strong>Advanced SQL Analytics</strong><br/><sub>10 multi-table analytical queries with JOINs & aggregations</sub></td>
+  </tr>
+  <tr>
+    <td align="center">🔒<br/><strong>Data Integrity</strong><br/><sub>CHECK, UNIQUE, FOREIGN KEY & NOT NULL constraints</sub></td>
+    <td align="center">⚡<br/><strong>Performance Optimized</strong><br/><sub>Strategic indexes on high-traffic columns</sub></td>
+    <td align="center">🧠<br/><strong>Learning Focused</strong><br/><sub>Clear structure designed for progressive SQL mastery</sub></td>
+  </tr>
+</table>
 
 ---
 
-## 🚀 Getting Started
+## 🧠 What You Will Learn
 
-Follow these steps to set up and run the project on your local machine.
+By studying and running this project, you will build practical skills in:
 
-### ✅ Prerequisites
-
-| Requirement | Details |
-|:---|:---|
-| 🐘 **PostgreSQL** | Version 13 or higher |
-| 💻 **SQL Client** | `psql` (CLI), pgAdmin, DBeaver, TablePlus, DataGrip, or VSCode SQL extensions |
-
-> 📥 Download PostgreSQL: [https://www.postgresql.org/download/](https://www.postgresql.org/download/)
+| #  | Skill | What You'll Understand |
+|:--:|:------|:-----------------------|
+| 1  | 🏗️ **Relational Schema Design** | How to model real entities as normalized tables with proper constraints |
+| 2  | 🔑 **Foreign Key Relationships** | How tables connect through referential integrity across 10 entities |
+| 3  | 📦 **Large Dataset Generation** | How to use `generate_series()` and `RANDOM()` to create 600K+ rows |
+| 4  | 🔗 **Multi-Table JOINs** | How to chain 3–5 JOINs to extract insights from related tables |
+| 5  | 📈 **Aggregation & Analytics** | How to use `COUNT`, `AVG`, `GROUP BY`, `HAVING`, and `FILTER` |
+| 6  | ⚡ **Query Optimization** | How indexes accelerate queries on large tables |
+| 7  | 🧪 **Analytical Thinking** | How to ask and answer business questions through SQL |
 
 ---
 
-### 📦 Step 1 — Clone the Repository
+## 🏛️ Database Architecture
 
-```bash
-git clone https://github.com/aman-bhaskar-codes/sql-data-systems-projects.git
-cd sql-data-systems-projects/project-1-student-management-basic
+The schema models a complete academic information system. Entities cascade from top-level **Departments** down to individual **Grades**.
+
+```
+🏛️ Departments
+     │
+     ├──── 🎓 Students
+     │
+     ├──── 👨‍🏫 Faculty
+     │
+     └──── 📚 Courses
+                │
+                └──── 📋 Course Offerings
+                            │
+                            └──── 🏫 Sections
+                                        │
+                                        ├──── ✍️ Enrollments
+                                        │
+                                        └──── 📝 Exams
+                                                    │
+                                                    └──── 📊 Grades
 ```
 
----
+> **Departments** are the root entity. Every student, professor, and course belongs to a department. Courses are offered each semester by specific faculty, split into sections, and students enroll in those sections. Exams are given per section, and grades record each student's score.
 
-### 🗄️ Step 2 — Create the Database
-
-Run the setup script to create the database:
-
-```bash
-psql -U postgres -f setup_database.sql
-```
-
-Or manually in any SQL client:
-
-```sql
-CREATE DATABASE student_management;
-```
-
-Then connect to the database:
-
-```bash
-psql -U postgres -d student_management
-```
-
-Or in a SQL client:
-
-```sql
-\c student_management
-```
-
----
-
-### 🏗️ Step 3 — Create the Tables
-
-Run the schema file to create all 10 database tables:
-
-```bash
-psql -U postgres -d student_management -f schema.sql
-```
-
-This creates the following tables in dependency order:
-
-| # | Table | Purpose |
-|:-:|:---|:---|
-| 1 | `departments` | Academic divisions |
-| 2 | `semesters` | Academic time periods |
-| 3 | `students` | Student records |
-| 4 | `faculties` | Professor records |
-| 5 | `courses` | Course catalog |
-| 6 | `course_offerings` | Semester-specific schedules |
-| 7 | `sections` | Class sections |
-| 8 | `enrollments` | Student registrations |
-| 9 | `exams` | Exam records |
-| 10 | `grades` | Student scores |
-
----
-
-### ⚡ Step 4 — Create Database Indexes
-
-Indexes improve query performance on large tables:
-
-```bash
-psql -U postgres -d student_management -f indexes.sql
-```
-
-This creates indexes on frequently queried columns:
-- `students.department_id`
-- `enrollments.student_id` & `enrollments.section_id`
-- `sections.offering_id`
-- `grades.exam_id` & `grades.student_id`
-
----
-
-### 🌱 Step 5 — Seed the Dataset
-
-Run the data generation script *(may take several seconds due to 600K+ rows)*:
-
-```bash
-psql -U postgres -d student_management -f seed.sql
-```
-
-This generates a large synthetic dataset including:
-
-| Table | Rows Generated |
-|:---|---:|
-| `students` | **100,000** |
-| `enrollments` | **300,000** |
-| `grades` | **200,000** |
-| `exams` | **2,000** |
-| `sections` | **1,000** |
-| `course_offerings` | **500** |
-| `courses` | **100** |
-| `faculties` | **40** |
-| `departments` | **8** |
-| `semesters` | **6** |
-
-> ⏱️ The seed script may take **several seconds** to execute due to the large volume of data. This is expected and simulates a realistic production dataset.
-
----
-
-### 🔍 Step 6 — Run Analytical Queries
-
-Execute the 10 built-in analytical queries:
-
-```bash
-psql -U postgres -d student_management -f queries.sql
-```
-
-These queries analyze: course popularity, faculty workload, student performance, department statistics, and enrollment trends.
-
----
-
-### 🖥️ Using a GUI Client Instead
-
-You can also run the SQL files in **graphical database clients** like pgAdmin, DBeaver, TablePlus, or DataGrip. Execute the files in this order:
-
-```text
-1. setup_database.sql    → Create the database
-2. schema.sql            → Create tables
-3. indexes.sql           → Add performance indexes
-4. seed.sql              → Generate dataset
-5. queries.sql           → Run analytics
-```
-
----
-
-## 🏗️ Database Architecture
-
-The schema models relationships commonly found in **academic information systems**. It follows a clean hierarchical structure where top-level entities (Departments) cascade into progressively more granular data (Grades).
-
-### 🧩 Core Entities
-
-| # | Entity | Purpose |
-|:-:|:---|:---|
-| 1 | 🏛️ **Departments** | Academic divisions (CS, Math, Physics, etc.) |
-| 2 | 🎓 **Students** | Student records with personal & academic info |
-| 3 | 👨‍🏫 **Faculty** | Professors assigned to departments |
-| 4 | 📚 **Courses** | Courses offered by each department |
-| 5 | 📅 **Semesters** | Academic time periods (Spring/Fall + Year) |
-| 6 | 📋 **Course Offerings** | Courses scheduled in a specific semester by a professor |
-| 7 | 🏫 **Sections** | Individual class sections with capacity limits |
-| 8 | ✍️ **Enrollments** | Student-to-section registrations |
-| 9 | 📝 **Exams** | Midterm & Final exams per section |
-| 10 | 📊 **Grades** | Student scores on specific exams |
-
----
-
-## 📊 Dataset Scale
-
-The project simulates a university with the following **approximate dataset size**, all generated programmatically:
-
-| Table | 📦 Records | Description |
-|:---|---:|:---|
-| `students` | **100,000** | Full student roster with unique IDs, emails & ages |
-| `enrollments` | **300,000** | Student-section registrations |
-| `grades` | **200,000** | Exam scores (0–100 scale) |
-| `exams` | **2,000** | Midterm & Final exams |
-| `sections` | **1,000** | Class sections with capacity |
-| `course_offerings` | **500** | Semester-specific course schedules |
-| `courses` | **100** | Academic courses (3–5 credits) |
-| `faculties` | **40** | Professors across departments |
-| `departments` | **8** | Academic departments |
-| `semesters` | **6** | Spring/Fall semesters (2022–2024) |
-
-> 📈 **Total Records: ~603,000+** across all tables
-
----
-
-## 🔗 Entity-Relationship Diagram
-
-The following diagram illustrates the **foreign key relationships** between all 10 tables:
+### 🔗 Entity-Relationship Diagram
 
 ```mermaid
 erDiagram
@@ -266,90 +100,46 @@ erDiagram
     STUDENTS ||--o{ GRADES : "receives"
 ```
 
-### 🔑 Key Relationships at a Glance
+---
 
-```
-departments.department_id  ──►  students.department_id
-departments.department_id  ──►  courses.department_id
-departments.department_id  ──►  faculties.department_id
-courses.course_id          ──►  course_offerings.course_id
-semesters.semester_id      ──►  course_offerings.semester_id
-faculties.faculty_id       ──►  course_offerings.faculty_id
-course_offerings.offering_id ──► sections.offering_id
-sections.section_id        ──►  enrollments.section_id
-sections.section_id        ──►  exams.section_id
-students.student_id        ──►  enrollments.student_id
-exams.exam_id              ──►  grades.exam_id
-students.student_id        ──►  grades.student_id
-```
+## 📊 Dataset Scale
+
+The project simulates a large academic institution with **600,000+ total records**, all generated programmatically:
+
+| Table | Records | Description |
+|:------|--------:|:------------|
+| `students` | **100,000** | Full student roster — unique IDs, emails, ages, departments |
+| `enrollments` | **300,000** | Student-to-section registrations |
+| `grades` | **200,000** | Exam scores on a 0–100 scale |
+| `exams` | **2,000** | Midterm & Final exams |
+| `sections` | **1,000** | Class sections with capacity limits |
+| `course_offerings` | **500** | Semester-specific course schedules |
+| `courses` | **100** | Academic courses (3–5 credits each) |
+| `faculties` | **40** | Professors across 8 departments |
+| `departments` | **8** | CS, Math, Physics, Economics, Biology, Chemistry, Data Science, EE |
+| `semesters` | **6** | Spring & Fall semesters (2022–2024) |
 
 ---
 
-## 🧬 Schema Design
+## ⚙️ How the Data Is Generated
 
-The schema follows **relational normalization principles** to ensure data integrity and minimize redundancy.
+The entire dataset is created with **pure SQL** — no Python, no CSV imports, no external tools. PostgreSQL's built-in functions do all the work.
 
-### 🔐 Integrity Constraints Used
+### Key Techniques
 
-| Constraint Type | Example | Purpose |
-|:---|:---|:---|
-| `PRIMARY KEY` | `student_id SERIAL PRIMARY KEY` | Unique row identifier |
-| `FOREIGN KEY` | `REFERENCES departments(department_id)` | Referential integrity |
-| `UNIQUE` | `email VARCHAR(120) UNIQUE` | No duplicate emails |
-| `CHECK` | `CHECK (age BETWEEN 17 AND 35)` | Domain validation |
-| `NOT NULL` | `department_name VARCHAR(100) ... NOT NULL` | Required fields |
-| `DEFAULT` | `DEFAULT CURRENT_TIMESTAMP` | Auto-set values |
+| Technique | Function | What It Does |
+|:----------|:---------|:-------------|
+| Series Generation | `generate_series(1, N)` | Creates N rows in a single statement |
+| Randomization | `RANDOM()` | Assigns random foreign keys and values |
+| Type Casting | `::INT` | Converts floats to clean integers |
+| String Building | `'prefix' \|\| gs` | Generates unique names and emails |
+| Zero-Padding | `LPAD(gs::TEXT, 6, '0')` | Formats student numbers: `UNI000001` |
+| Conditional Logic | `CASE WHEN ... THEN` | Randomly assigns Midterm or Final exam types |
 
-### 📄 Sample Table Definition
+<details>
+<summary>📝 <strong>View Example — Generating 100K Students</strong></summary>
 
-```sql
-CREATE TABLE students (
-    student_id      SERIAL PRIMARY KEY,
-    student_number  VARCHAR(20) UNIQUE NOT NULL,
-    first_name      VARCHAR(50),
-    last_name       VARCHAR(50),
-    email           VARCHAR(120) UNIQUE,
-    age             INT CHECK (age BETWEEN 17 AND 35),
-    department_id   INT REFERENCES departments(department_id),
-    enrollment_year INT,
-    created_at      TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-```
-
-### 📇 Strategic Indexes
-
-Performance-optimized indexes are defined in `indexes.sql` for the most frequently queried columns:
-
-```sql
-CREATE INDEX idx_students_department ON students(department_id);
-CREATE INDEX idx_enrollments_student ON enrollments(student_id);
-CREATE INDEX idx_enrollments_section ON enrollments(section_id);
-CREATE INDEX idx_sections_offering   ON sections(offering_id);
-CREATE INDEX idx_grades_exam         ON grades(exam_id);
-CREATE INDEX idx_grades_student      ON grades(student_id);
-```
-
-> ⚡ These indexes **dramatically speed up** JOIN operations on the large enrollment and grades tables.
-
----
-
-## ⚙️ Data Generation Strategy
-
-Large datasets are generated **programmatically** inside `seed.sql` using native PostgreSQL functions — no external scripts needed.
-
-### 🛠️ Key Techniques
-
-| Technique | Function | Usage |
-|:---|:---|:---|
-| **Series Generation** | `generate_series(1, N)` | Create N rows in one statement |
-| **Randomization** | `RANDOM()` | Assign random foreign keys & values |
-| **Type Casting** | `::INT` | Convert floats to integers |
-| **String Building** | `'prefix' \|\| gs` | Generate unique names / emails |
-| **Zero-Padding** | `LPAD(gs::TEXT, 6, '0')` | Format student numbers: `UNI000001` |
-| **Modular Arithmetic** | `gs % 5` | Distribute records evenly |
-| **Conditional Logic** | `CASE WHEN ... THEN` | Random midterm/final exam types |
-
-### 📝 Example — Generating 100K Students
+<br/>
 
 ```sql
 INSERT INTO students (
@@ -367,32 +157,151 @@ SELECT
 FROM generate_series(1, 100000) AS gs;
 ```
 
-> 🚀 This single statement generates **100,000 student records** in seconds.
+🚀 This single statement generates **100,000 student records** in seconds.
+
+</details>
+
+<details>
+<summary>📝 <strong>View Example — Generating 200K Grades</strong></summary>
+
+<br/>
+
+```sql
+INSERT INTO grades (exam_id, student_id, score)
+SELECT
+    (RANDOM() * 1999 + 1)::INT,            -- Random exam (1–2000)
+    (RANDOM() * 99999 + 1)::INT,           -- Random student (1–100000)
+    (RANDOM() * 100)::INT                   -- Score between 0–100
+FROM generate_series(1, 200000);
+```
+
+Each grade is linked to a random exam and student, simulating realistic exam results.
+
+</details>
+
+---
+
+## 🚀 Getting Started
+
+Follow these steps to set up and run the project on your local machine.
+
+### ✅ Prerequisites
+
+| Requirement | Details |
+|:---|:---|
+| 🐘 **PostgreSQL** | Version 13 or higher |
+| 💻 **SQL Client** | `psql` (CLI), pgAdmin, DBeaver, TablePlus, DataGrip, or VSCode SQL extensions |
+
+> 📥 Download PostgreSQL → [postgresql.org/download](https://www.postgresql.org/download/)
+
+---
+
+### 📦 Step 1 — Clone the Repository
+
+```bash
+git clone https://github.com/aman-bhaskar-codes/sql-data-systems-projects.git
+cd sql-data-systems-projects/project-1-student-management-basic
+```
+
+---
+
+### 🗄️ Step 2 — Create the Database
+
+Run the setup script:
+
+```bash
+psql -U postgres -f setup_database.sql
+```
+
+Or manually:
+
+```sql
+CREATE DATABASE student_management;
+\c student_management
+```
+
+---
+
+### 🏗️ Step 3 — Create the Tables
+
+```bash
+psql -U postgres -d student_management -f schema.sql
+```
+
+This creates all 10 tables in dependency order — departments first, grades last.
+
+---
+
+### ⚡ Step 4 — Create Indexes
+
+```bash
+psql -U postgres -d student_management -f indexes.sql
+```
+
+Adds strategic indexes on `department_id`, `student_id`, `section_id`, `exam_id` — essential for fast JOINs on large tables.
+
+---
+
+### 🌱 Step 5 — Seed the Dataset
+
+```bash
+psql -U postgres -d student_management -f seed.sql
+```
+
+> ⏱️ This may take **several seconds** — it's generating 600,000+ rows. This is expected.
+
+---
+
+### 🔍 Step 6 — Run Analytical Queries
+
+```bash
+psql -U postgres -d student_management -f queries.sql
+```
+
+All 10 analytical queries will execute and return results immediately.
+
+---
+
+### 🖥️ Using a GUI Instead?
+
+Open the SQL files in **pgAdmin**, **DBeaver**, **TablePlus**, or **DataGrip** and execute in order:
+
+```
+1. setup_database.sql  →  Create the database
+2. schema.sql          →  Create tables
+3. indexes.sql         →  Add performance indexes
+4. seed.sql            →  Generate 600K+ records
+5. queries.sql         →  Run analytics
+```
 
 ---
 
 ## 🔍 Analytical Queries
 
-The project includes **10 advanced SQL queries** in `queries.sql` that extract meaningful insights from the dataset.
+The project includes **10 production-style analytical queries**. Each demonstrates different SQL concepts.
 
-### 📊 Query Catalog
-
-| # | Query | Key Concepts | Description |
-|:-:|:---|:---|:---|
-| 1 | 🏆 **Most Popular Courses** | `JOIN` × 4, `GROUP BY`, `COUNT` | Top 10 courses by enrollment count |
+| # | Query | Concepts | What It Finds |
+|:-:|:------|:---------|:--------------|
+| 1 | 🏆 **Most Popular Courses** | `JOIN` × 4, `COUNT`, `GROUP BY` | Top 10 courses by enrollment |
 | 2 | 👨‍🏫 **Faculty Teaching Load** | `JOIN` × 4, `COUNT`, `ORDER BY` | Professors teaching the most students |
-| 3 | 🏛️ **Department Enrollment** | `JOIN`, `GROUP BY`, `COUNT` | Student distribution across departments |
-| 4 | 📚 **Most Active Students** | `JOIN`, `GROUP BY`, `COUNT` | Students enrolled in the most courses |
-| 5 | 💀 **Hardest Courses** | `JOIN` × 5, `AVG`, `ASC` | Courses with the lowest average grades |
-| 6 | ⭐ **Top Performers** | `JOIN`, `AVG`, `ORDER BY DESC` | Top 10 students by average score |
-| 7 | 📈 **Enrollment Trends** | `GROUP BY`, `COUNT`, `ORDER BY` | Yearly student enrollment trends |
-| 8 | 🏅 **Dept. Avg Grades** | `JOIN` × 2, `AVG`, `GROUP BY` | Average grade per department |
-| 9 | ❌ **Failure Rates** | `FILTER (WHERE)`, `COUNT` | Courses with the highest failure rate |
-| 10 | 📋 **Faculty Workload** | `COUNT(DISTINCT)`, `GROUP BY` | Number of distinct courses per professor |
+| 3 | 🏛️ **Dept. Enrollment** | `JOIN`, `COUNT`, `GROUP BY` | Student distribution by department |
+| 4 | 📚 **Most Active Students** | `JOIN`, `COUNT`, `LIMIT` | Students enrolled in the most courses |
+| 5 | 💀 **Hardest Courses** | `JOIN` × 5, `AVG`, `ASC` | Courses with lowest average scores |
+| 6 | ⭐ **Top Performers** | `JOIN`, `AVG`, `DESC` | Top 10 students by average score |
+| 7 | 📈 **Enrollment Trends** | `GROUP BY`, `COUNT` | Year-over-year enrollment growth |
+| 8 | 🏅 **Dept. Avg Grades** | `JOIN` × 2, `AVG` | Average score per department |
+| 9 | ❌ **Failure Rates** | `FILTER (WHERE)`, `COUNT` | Courses with most students scoring < 40 |
+| 10 | 📋 **Faculty Workload** | `COUNT(DISTINCT)` | Number of distinct courses per professor |
 
-### 📝 Example — Most Popular Courses
+<details>
+<summary>🏆 <strong>View Query — Most Popular Courses</strong></summary>
+
+<br/>
 
 ```sql
+-- Finds the top 10 courses with the most enrolled students
+-- by chaining: courses → offerings → sections → enrollments
+
 SELECT
     c.course_name,
     COUNT(e.enrollment_id) AS total_students
@@ -408,9 +317,49 @@ ORDER BY total_students DESC
 LIMIT 10;
 ```
 
-### 📝 Example — Courses with Highest Failure Rate
+**How it works:** Starting from courses, we JOIN through offerings and sections to reach enrollments, then count how many students enrolled in each course.
+
+</details>
+
+<details>
+<summary>💀 <strong>View Query — Hardest Courses</strong></summary>
+
+<br/>
 
 ```sql
+-- Finds the 10 courses with the lowest average exam scores
+-- by chaining: courses → offerings → sections → exams → grades
+
+SELECT
+    c.course_name,
+    AVG(g.score) AS avg_score
+FROM courses c
+JOIN course_offerings co
+    ON c.course_id = co.course_id
+JOIN sections s
+    ON co.offering_id = s.offering_id
+JOIN exams ex
+    ON s.section_id = ex.section_id
+JOIN grades g
+    ON ex.exam_id = g.exam_id
+GROUP BY c.course_name
+ORDER BY avg_score ASC
+LIMIT 10;
+```
+
+**How it works:** This is a 5-table JOIN chain. We traverse from courses all the way to grades, then calculate the average score per course. The lowest averages indicate the hardest courses.
+
+</details>
+
+<details>
+<summary>❌ <strong>View Query — Failure Rates</strong></summary>
+
+<br/>
+
+```sql
+-- Uses PostgreSQL's FILTER clause for conditional aggregation
+-- Counts students scoring below 40 vs total students per course
+
 SELECT
     c.course_name,
     COUNT(*) FILTER (WHERE g.score < 40) AS failed_students,
@@ -429,7 +378,87 @@ ORDER BY failed_students DESC
 LIMIT 10;
 ```
 
-> 💡 All 10 queries are ready to run — see [`queries.sql`](queries.sql) for the full list.
+**How it works:** The `FILTER (WHERE ...)` clause is a PostgreSQL-specific feature that counts only rows matching a condition — here, scores below 40. This is more readable than using `CASE WHEN` inside `SUM`.
+
+</details>
+
+---
+
+## 🧬 Schema Design
+
+### 🔐 Integrity Constraints
+
+| Constraint | Example | Purpose |
+|:-----------|:--------|:--------|
+| `PRIMARY KEY` | `student_id SERIAL PRIMARY KEY` | Unique row identifier |
+| `FOREIGN KEY` | `REFERENCES departments(department_id)` | Referential integrity |
+| `UNIQUE` | `email VARCHAR(120) UNIQUE` | No duplicate emails |
+| `CHECK` | `CHECK (age BETWEEN 17 AND 35)` | Domain validation |
+| `NOT NULL` | `department_name ... NOT NULL` | Required fields |
+| `DEFAULT` | `DEFAULT CURRENT_TIMESTAMP` | Auto-set creation time |
+
+<details>
+<summary>📄 <strong>View Full Students Table Definition</strong></summary>
+
+<br/>
+
+```sql
+CREATE TABLE students (
+    student_id      SERIAL PRIMARY KEY,
+    student_number  VARCHAR(20) UNIQUE NOT NULL,
+    first_name      VARCHAR(50),
+    last_name       VARCHAR(50),
+    email           VARCHAR(120) UNIQUE,
+    age             INT CHECK (age BETWEEN 17 AND 35),
+    department_id   INT REFERENCES departments(department_id),
+    enrollment_year INT,
+    created_at      TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+```
+
+This table uses 6 different constraint types to ensure data quality.
+
+</details>
+
+### 📇 Performance Indexes
+
+```sql
+CREATE INDEX idx_students_department ON students(department_id);
+CREATE INDEX idx_enrollments_student ON enrollments(student_id);
+CREATE INDEX idx_enrollments_section ON enrollments(section_id);
+CREATE INDEX idx_sections_offering   ON sections(offering_id);
+CREATE INDEX idx_grades_exam         ON grades(exam_id);
+CREATE INDEX idx_grades_student      ON grades(student_id);
+```
+
+> ⚡ These indexes **dramatically speed up** JOIN operations on the 300K enrollment and 200K grades tables.
+
+---
+
+## 🧠 SQL Concepts Covered
+
+<table>
+  <tr>
+    <th>Category</th>
+    <th>Concepts</th>
+  </tr>
+  <tr>
+    <td><strong>📐 Data Definition</strong></td>
+    <td><code>CREATE TABLE</code> · <code>CREATE DATABASE</code> · <code>CREATE INDEX</code> · <code>PRIMARY KEY</code> · <code>FOREIGN KEY</code> · <code>CHECK</code> · <code>UNIQUE</code></td>
+  </tr>
+  <tr>
+    <td><strong>📝 Data Manipulation</strong></td>
+    <td><code>INSERT ... SELECT</code> · <code>SELECT</code> · <code>JOIN</code> · <code>GROUP BY</code> · <code>ORDER BY</code> · <code>LIMIT</code></td>
+  </tr>
+  <tr>
+    <td><strong>📊 Analytics</strong></td>
+    <td><code>COUNT()</code> · <code>COUNT(DISTINCT)</code> · <code>AVG()</code> · <code>FILTER (WHERE)</code></td>
+  </tr>
+  <tr>
+    <td><strong>⚙️ Data Generation</strong></td>
+    <td><code>generate_series()</code> · <code>RANDOM()</code> · <code>LPAD()</code> · <code>CASE WHEN</code> · <code>::INT</code> casting</td>
+  </tr>
+</table>
 
 ---
 
@@ -438,130 +467,54 @@ LIMIT 10;
 ```
 project-1-student-management-basic/
 │
-├── 📄 setup_database.sql    # Database creation script
-├── 📄 schema.sql            # Table definitions with constraints & relationships
-├── 📄 indexes.sql           # Performance indexes for large tables
-├── 📄 seed.sql              # Synthetic data generation (600K+ records)
-├── 📄 queries.sql           # 10 analytical SQL queries
-└── 📄 README.md             # Project documentation
+├── 📄 setup_database.sql    → Create the database
+├── 📄 schema.sql            → Table definitions (10 tables, dependency order)
+├── 📄 indexes.sql           → Performance indexes (6 indexes)
+├── 📄 seed.sql              → Synthetic data generation (600K+ records)
+├── 📄 queries.sql           → 10 analytical SQL queries
+├── 📄 README.md             → Project documentation
+└── 📁 docs/                 → Assets (banner image)
 ```
 
-**Execution order:**
-
-```text
-setup_database.sql → schema.sql → indexes.sql → seed.sql → queries.sql
-```
-
----
-
-## 🧠 SQL Concepts Demonstrated
-
-### 📐 Data Definition (DDL)
-
-| Concept | Usage |
-|:---|:---|
-| `CREATE TABLE` | Define 10 normalized tables |
-| `CREATE DATABASE` | Database initialization |
-| `PRIMARY KEY` | Unique row identifiers via `SERIAL` |
-| `FOREIGN KEY` | 12 referential integrity constraints |
-| `CHECK` | Domain validation (age, score ranges) |
-| `UNIQUE` | Prevent duplicate emails & student numbers |
-| `CREATE INDEX` | Optimize JOIN performance |
-
-### 📝 Data Manipulation (DML)
-
-| Concept | Usage |
-|:---|:---|
-| `INSERT ... SELECT` | Bulk data generation from `generate_series()` |
-| `SELECT` | Data retrieval across all queries |
-| `JOIN` | Multi-table joins (up to 5 tables deep) |
-| `GROUP BY` | Aggregation for analytics |
-| `ORDER BY` | Sorting results by metrics |
-| `LIMIT` | Top-N result filtering |
-
-### 📊 Analytical Functions
-
-| Function | Purpose |
-|:---|:---|
-| `COUNT()` | Count enrollments, students, courses |
-| `COUNT(DISTINCT)` | Unique course counts per faculty |
-| `AVG()` | Average scores per student/department |
-| `FILTER (WHERE ...)` | Conditional aggregation (failure rates) |
-| `RANDOM()` | Randomized synthetic data |
-| `generate_series()` | Bulk row generation |
-
----
-
-## 🎯 Learning Objectives
-
-This project is designed to strengthen the following **foundational database skills**:
-
-- [x] 🏗️ **Relational Schema Design** — Modeling real-world entities as normalized tables
-- [x] 🔑 **Foreign Key Relationships** — Building referential integrity across 10 tables
-- [x] 📦 **Large Dataset Handling** — Generating and querying 600K+ synthetic records
-- [x] 📊 **Complex Analytical Queries** — Multi-table JOINs, aggregation & ranking
-- [x] 🔒 **Data Integrity** — CHECK, UNIQUE, and NOT NULL constraints
-- [x] ⚡ **Query Optimization** — Strategic indexing for performance
-- [x] 🧪 **Synthetic Data Generation** — Programmatic seeding with SQL functions
-
----
-
-## 🛠️ Technologies Used
-
-<p align="center">
-  <img src="https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL" />
-  <img src="https://img.shields.io/badge/SQL-003B57?style=for-the-badge&logo=database&logoColor=white" alt="SQL" />
-  <img src="https://img.shields.io/badge/pgAdmin-336791?style=for-the-badge&logo=postgresql&logoColor=white" alt="pgAdmin" />
-  <img src="https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white" alt="Git" />
-</p>
-
-| Technology | Role |
-|:---|:---|
-| 🐘 **PostgreSQL** | Primary relational database engine |
-| 📝 **SQL** | Schema definition, data generation & analytics |
-| 📊 **Relational Modeling** | Normalized entity-relationship design |
-| 🔧 **Git** | Version control |
+**Execution order:** `setup_database.sql` → `schema.sql` → `indexes.sql` → `seed.sql` → `queries.sql`
 
 ---
 
 ## 📈 Future Improvements
 
-Possible extensions to expand this project:
-
 | Enhancement | Description |
 |:---|:---|
 | 🏫 **Classroom Scheduling** | Room assignments, time slots & conflict detection |
-| 📋 **Prerequisites** | Course dependency trees & prerequisite validation |
+| 📋 **Course Prerequisites** | Dependency trees & prerequisite validation |
 | 💰 **Tuition & Financials** | Fee structures, scholarships & payment tracking |
 | 🤝 **Advisor System** | Faculty-student advisory relationships |
-| 📅 **Attendance Tracking** | Daily attendance logs & absence reports |
+| 📅 **Attendance Tracking** | Daily attendance logs & absence analytics |
 | 📊 **Dashboard Integration** | Connect to Grafana / Metabase for visual analytics |
 | 🔄 **Stored Procedures** | Automate enrollment & grading workflows |
-| 🧪 **Unit Testing** | pgTAP-based test suites for schema validation |
+| 🧪 **Schema Testing** | pgTAP-based automated test suites |
 
 ---
 
-## 📌 About This Series
+## 📚 This Is Part of a Series
 
-> This project was developed as **part of a series** of database exercises designed to build progressively stronger skills in **SQL**, **data modeling**, and **analytical querying**.
+This project is the **first module** in a progressive SQL mastery series:
 
-```text
-sql-data-systems-projects/
-│
-├── project-1-student-management-basic     ← You are here
-├── project-2-ecommerce-database
-├── project-3-streaming-platform-analytics
-├── project-4-company-hr-analytics
-└── project-5-agent-memory-database
-```
+| # | Project | Domain | Status |
+|:-:|:--------|:-------|:------:|
+| 1 | 🎓 **Student Management System** | University Academics | ✅ Complete |
+| 2 | 🛒 **E-Commerce Database** | Online Retail Analytics | 🔜 Coming Soon |
+| 3 | 🎬 **Streaming Platform Analytics** | Media & Content | 🔜 Coming Soon |
+| 4 | 🏢 **Company HR Analytics** | Human Resources | 🔜 Coming Soon |
+| 5 | 🤖 **Agent Memory Database** | AI Memory Systems | 🔜 Coming Soon |
 
-> Later projects explore more advanced domains such as **e-commerce analytics**, **streaming platform data modeling**, and **agent memory systems**.
+> Each project builds on the skills learned in the previous one — progressing from foundational schema design to advanced analytical systems.
 
 ---
 
 ## 🤝 Contributing
 
-Contributions, issues, and feature requests are welcome! Feel free to check the [issues page](https://github.com/aman-bhaskar-codes/sql-data-systems-projects/issues).
+Contributions, issues, and feature requests are welcome!
+Feel free to check the [issues page](https://github.com/aman-bhaskar-codes/sql-data-systems-projects/issues).
 
 ## 📄 License
 
@@ -570,11 +523,12 @@ This project is [MIT](https://opensource.org/licenses/MIT) licensed.
 ---
 
 <p align="center">
-  <sub>Built with ❤️ using PostgreSQL | Part of the <strong>SQL Data Systems Projects</strong> series</sub>
+  <sub>Built with ❤️ using PostgreSQL</sub><br/>
+  <sub>Part of the <strong>SQL Data Systems Projects</strong> series</sub>
 </p>
 
 <p align="center">
   <a href="https://github.com/aman-bhaskar-codes">
-    <img src="https://img.shields.io/badge/GitHub-aman--bhaskar--codes-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub" />
+    <img src="https://img.shields.io/badge/GitHub-aman--bhaskar--codes-181717?style=for-the-badge&logo=github&logoColor=white" />
   </a>
 </p>
