@@ -46,3 +46,11 @@ CREATE TABLE products (
         FOREIGN KEY (category_id)
         REFERENCES categories(category_id)
 );
+
+CREATE TABLE warehouses (
+    warehouse_id SERIAL PRIMARY KEY,
+    warehouse_name TEXT NOT NULL,
+    city TEXT NOT NULL,
+    state TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
