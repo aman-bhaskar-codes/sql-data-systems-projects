@@ -47,6 +47,7 @@ CREATE TABLE products (
         REFERENCES categories(category_id)
 );
 
+
 CREATE TABLE warehouses (
     warehouse_id SERIAL PRIMARY KEY,
     warehouse_name TEXT NOT NULL,
@@ -54,3 +55,25 @@ CREATE TABLE warehouses (
     state TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+
+CREATE TABLE inventory (
+    inventory_id BIGSERIAL PRIMARY KEY,
+    product_id BIGINT NOT NULL,
+    warehouse_id INT NOT NULL,
+    stock_quantity INT NOT NULL DEFAULT 0,
+    last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT fk_product
+        FOREIGN KEY (product_id)
+        REFERENCES products(product_id),
+
+    CONSTRAINT fk_warehouse
+        FOREIGN KEY (warehouse_id)
+        REFERENCES warehouses(warehouse_id),
+
+    CONSTRAINT unique_product_warehouse
+        UNIQUE(product_id, warehouse_id)
+);
+
+
