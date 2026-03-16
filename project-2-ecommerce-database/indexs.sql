@@ -117,3 +117,6 @@ ON product_views(user_id);
 -- Search analytics
 CREATE INDEX idx_search_logs_user
 ON search_logs(user_id);
+
+
+
