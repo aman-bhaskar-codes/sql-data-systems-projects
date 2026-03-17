@@ -502,10 +502,8 @@ This project is the **first module** in a progressive SQL mastery series:
 | # | Project | Domain | Status |
 |:-:|:--------|:-------|:------:|
 | 1 | 🎓 **Student Management System** | University Academics | ✅ Complete |
-| 2 | 🛒 **E-Commerce Database** | Online Retail Analytics | 🔜 Coming Soon |
-| 3 | 🎬 **Streaming Platform Analytics** | Media & Content | 🔜 Coming Soon |
-| 4 | 🏢 **Company HR Analytics** | Human Resources | 🔜 Coming Soon |
-| 5 | 🤖 **Agent Memory Database** | AI Memory Systems | 🔜 Coming Soon |
+| 2 | 🛒 **AI E-Commerce Platform** | Online Retail + AI | ✅ Complete |
+| 3 | 🤖 **Agent Memory Database** | AI Memory Systems | 🔜 Coming Soon |
 
 > Each project builds on the skills learned in the previous one — progressing from foundational schema design to advanced analytical systems.
 
