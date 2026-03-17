@@ -47,7 +47,7 @@
 This platform implements a **layered data architecture** typical of production e-commerce systems, blending traditional relational processing with modern vector AI capabilities.
 
 ```mermaid
-flowchart TB
+flowchart TD
     %% Cinematic Styling
     classDef core fill:#0f172a,stroke:#38bdf8,stroke-width:2px,color:#fff,shadow:shadow
     classDef ai fill:#312e81,stroke:#a855f7,stroke-width:2px,color:#fff,shadow:shadow
@@ -56,52 +56,54 @@ flowchart TB
     classDef user fill:#1e293b,stroke:#cbd5e1,stroke-width:2px,color:#fff,shadow:shadow
 
     %% User Interaction Layer
-    subgraph UI [📱 User Interaction Layer]
-        U((👤 User Browsing)):::user -->|Searches| S[🔍 Semantic Search]:::user
-        U -->|Clicks| V[👀 Product Views]:::user
+    subgraph UI [📱 Client Interaction]
+        direction LR
+        U((👤 User)):::user -->|Searches| S[🔍 Semantic Search]:::user
+        U -->|Browses| V[👀 Product Views]:::user
         U -->|Buys| C[🛒 Checkout]:::user
     end
 
-    %% Application API & Logic
-    subgraph Logic [⚙️ Core E-Commerce Logic]
+    %% Application Logic
+    subgraph Logic [⚙️ Application API]
         S -->|Query| Q_Parser[🔤 Query Parser]:::core
-        V -->|Event| E_Engine[📡 Event Engine]:::core
-        C -->|Transaction| O_Engine[💳 Order Engine]:::core
+        V -->|Log Event| E_Engine[📡 Event Pipeline]:::core
+        C -->|Process| O_Engine[💳 Order Engine]:::core
     end
 
-    %% Database Storage & Processing
-    subgraph DB [🗄️ PostgreSQL Storage & Processing Layer]
-        Q_Parser -->|Full-Text| FTS[(tsvector Search)]:::db
+    %% Database Core Layer
+    subgraph DB [🗄️ Core PostgreSQL Database]
+        direction TB
+        Q_Parser -->|Keyword Match| FTS[(tsvector Search)]:::db
         O_Engine -->|Insert| Orders[(Orders Table\nPartitioned)]:::db
-        O_Engine -->|Trigger| Inv_Trigger[⚡ Trigger:\nAuto-Deduct Stock]:::db
-        Inv_Trigger --> Inventory[(Inventory Table)]:::db
+        O_Engine -->|Trigger| Inv_Trigger[⚡ Auto-Deduct Stock]:::db
+        Inv_Trigger --> Inventory[(Inventory)]:::db
+        E_Engine -->|JSONB| Events[(System Events)]:::analytics
     end
 
-    %% AI & Vector Layer
-    subgraph AI_Layer [🧠 AI & Intelligence Layer pgvector]
-        Q_Parser -->|Vectorize| Q_Vec[Array Query Vector]:::ai
-        Q_Vec -->|Cosine Distance <->| Prod_Vec[(Products Table\nvector: 384-dim)]:::ai
+    %% AI Intelligence Layer
+    subgraph AI [🧠 pgvector AI Layer]
+        direction TB
+        Q_Parser -.->|Generate Vector| Q_Vec[Array Query Vector]:::ai
+        Q_Vec -.->|Cosine Distance <->| Prod_Vec[(Products Table\nvector: 384-dim)]:::ai
         FTS -.->|Combine ts_rank| Hybrid[🤖 Hybrid Search Engine]:::ai
         Prod_Vec -.->|Combine similarity| Hybrid
-        Hybrid -->|Results| Rec_Engine[🎯 Recommendation Engine]:::ai
         
-        Orders -->|Purchase History| Taste[👤 User Taste Mapping]:::ai
-        Taste -->|Centroid AVG| User_Vec[User Profile Vector]:::ai
-        User_Vec -->|Cosine Distance <->| Prod_Vec
+        Orders -->|Purchase History| Taste[👤 User Taste Profile]:::ai
+        Taste -->|Centroid AVG()| Prod_Vec
     end
 
     %% Analytics Layer
-    subgraph Analytics_Layer [📊 Business Intelligence]
-        Orders -->|Extract Daily| ETL[⏳ pg_cron Jobs]:::analytics
-        ETL -->|REFRESH CONCURRENTLY| MV_LTV[(User LTV View)]:::analytics
-        ETL -->|REFRESH CONCURRENTLY| MV_Rev[(Seller Revenue View)]:::analytics
-        E_Engine -->|JSONB Log| Events[(System Events\nPartitioned)]:::analytics
+    subgraph Analytics [📊 Analytics & BI Dashboards]
+        Orders -->|pg_cron| MV_LTV[(User LTV View)]:::analytics
+        Orders -->|pg_cron| MV_Rev[(Seller Revenue View)]:::analytics
+        Events -->|Funnel| DashBoards([👨‍💼 Admin Dashboards]):::user
+        MV_LTV -->|Metrics| DashBoards
+        MV_Rev -->|Metrics| DashBoards
     end
 
-    %% Flow connections
-    Rec_Engine ==>|JSON Response| U
-    MV_LTV -->|Dashboards| Admin([👨‍💼 Admin Dashboards]):::user
-    Events -->|Funnel Analysis| Admin
+    %% Cross-layer connections
+    Hybrid ==>|Results| U
+    Taste ==>|Recommendations| U
 
     %% Styling linkages
     linkStyle default stroke:#64748b,stroke-width:2px,fill:none
