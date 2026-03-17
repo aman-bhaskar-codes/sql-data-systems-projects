@@ -89,7 +89,7 @@ flowchart TD
         Prod_Vec -.->|Combine similarity| Hybrid
         
         Orders -->|Purchase History| Taste[👤 User Taste Profile]:::ai
-        Taste -->|Centroid AVG()| Prod_Vec
+        Taste -->|"Centroid AVG"| Prod_Vec
     end
 
     %% Analytics Layer
