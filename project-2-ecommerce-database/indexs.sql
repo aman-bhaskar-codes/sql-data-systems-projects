@@ -119,4 +119,99 @@ CREATE INDEX idx_search_logs_user
 ON search_logs(user_id);
 
 
+-- =====================================
+-- BASIC INDEXES
+-- =====================================
+
+CREATE INDEX idx_users_email ON users(email);
+
+CREATE INDEX idx_products_category ON products(category_id);
+CREATE INDEX idx_products_seller ON products(seller_id);
+
+CREATE INDEX idx_orders_user ON orders(user_id);
+CREATE INDEX idx_orders_date ON orders(order_date);
+
+CREATE INDEX idx_order_items_product ON order_items(product_id);
+CREATE INDEX idx_order_items_order ON order_items(order_id);
+
+CREATE INDEX idx_inventory_product ON inventory(product_id);
+CREATE INDEX idx_inventory_warehouse ON inventory(warehouse_id);
+
+CREATE INDEX idx_reviews_product ON reviews(product_id);
+
+
+
+-- =====================================
+-- JSONB INDEX
+-- =====================================
+
+CREATE INDEX idx_metadata_json
+ON product_metadata
+USING GIN(metadata);
+
+
+
+-- =====================================
+-- FULL TEXT SEARCH INDEX
+-- =====================================
+
+CREATE INDEX idx_products_search
+ON products
+USING GIN(search_vector);
+
+
+
+-- =====================================
+-- VECTOR INDEX (AI)
+-- =====================================
+
+CREATE INDEX idx_product_vector
+ON products
+USING ivfflat (embedding vector_cosine_ops);
+
+
+
+-- =====================================
+-- EVENT SYSTEM INDEX
+-- =====================================
+
+CREATE INDEX idx_events_user ON system_events(user_id);
+CREATE INDEX idx_events_type ON system_events(event_type);
+
+
+-- =====================================================
+-- INDEXES (PERFORMANCE OPTIMIZATION)
+-- =====================================================
+
+-- USERS
+CREATE INDEX idx_users_email ON users(email);
+CREATE INDEX idx_users_email_lower ON users (LOWER(email));
+
+-- PRODUCTS
+CREATE INDEX idx_products_category ON products(category_id);
+CREATE INDEX idx_products_seller ON products(seller_id);
+CREATE INDEX idx_products_category_price ON products(category_id, price);
+
+-- ORDERS
+CREATE INDEX idx_orders_user ON orders(user_id);
+CREATE INDEX idx_orders_date ON orders(order_date);
+CREATE INDEX idx_orders_pending
+ON orders(order_date)
+WHERE order_status = 'pending';
+
+-- ORDER ITEMS
+CREATE INDEX idx_order_items_order ON order_items(order_id);
+CREATE INDEX idx_order_items_product ON order_items(product_id);
+
+-- INVENTORY
+CREATE INDEX idx_inventory_product ON inventory(product_id);
+
+-- REVIEWS
+CREATE INDEX idx_reviews_product ON reviews(product_id);
+
+-- PARTITION INDEXES
+CREATE INDEX idx_orders_2024_user ON orders_2024(user_id);
+CREATE INDEX idx_orders_2025_user ON orders_2025(user_id);
+CREATE INDEX idx_orders_2026_user ON orders_2026(user_id);
+
 

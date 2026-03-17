@@ -3,11 +3,16 @@
 -- Generates ~15–16 Million Rows
 -- =====================================================
 
--- =====================================================
--- CLEAN DATABASE (SAFE RERUN)
--- =====================================================
+
 
 TRUNCATE TABLE
+user_recommendations,
+product_metrics_daily,
+product_relationships,
+product_features,
+user_features,
+system_events,
+product_metadata,
 search_logs,
 product_views,
 review_votes,
@@ -36,7 +41,7 @@ categories
 RESTART IDENTITY CASCADE;
 
 -- =====================================================
--- CATEGORY DATA
+-- CATEGORIES
 -- =====================================================
 
 INSERT INTO categories (category_name)
@@ -78,7 +83,7 @@ FROM users
 WHERE random() < 0.4;
 
 -- =====================================================
--- SELLERS (2000)
+-- SELLERS
 -- =====================================================
 
 INSERT INTO sellers (seller_name,email,rating)
@@ -87,10 +92,6 @@ SELECT
 'seller' || gs || '@shop.com',
 round((random()*5)::numeric,2)
 FROM generate_series(1,2000) gs;
-
--- =====================================================
--- SELLER ADDRESSES
--- =====================================================
 
 INSERT INTO seller_addresses (seller_id,street,city,state)
 SELECT
@@ -101,7 +102,7 @@ seller_id,
 FROM sellers;
 
 -- =====================================================
--- PRODUCTS (200K)
+-- PRODUCTS
 -- =====================================================
 
 INSERT INTO products (seller_id,category_id,product_name,price)
@@ -112,19 +113,10 @@ SELECT
 round((random()*1000 + 10)::numeric,2)
 FROM generate_series(1,200000) gs;
 
--- =====================================================
--- PRODUCT IMAGES
--- =====================================================
-
 INSERT INTO product_images (product_id,image_url)
-SELECT
-product_id,
+SELECT product_id,
 'https://img.store.com/' || product_id || '.jpg'
 FROM products;
-
--- =====================================================
--- PRODUCT ATTRIBUTES
--- =====================================================
 
 INSERT INTO product_attributes (product_id,attribute_name,attribute_value)
 SELECT
@@ -138,10 +130,6 @@ END
 FROM products
 WHERE random() < 0.5;
 
--- =====================================================
--- PRODUCT TAGS
--- =====================================================
-
 INSERT INTO product_tags (product_id,tag_name)
 SELECT
 product_id,
@@ -153,7 +141,7 @@ FROM products
 WHERE random() < 0.4;
 
 -- =====================================================
--- WAREHOUSES
+-- WAREHOUSES + INVENTORY
 -- =====================================================
 
 INSERT INTO warehouses (warehouse_name,city,state)
@@ -163,20 +151,12 @@ SELECT
 'State ' || gs
 FROM generate_series(1,20) gs;
 
--- =====================================================
--- INVENTORY
--- =====================================================
-
 INSERT INTO inventory (product_id,warehouse_id,stock_quantity)
 SELECT
 product_id,
 (random()*19 + 1)::int,
 (random()*500)::int
 FROM products;
-
--- =====================================================
--- INVENTORY MOVEMENTS (1M)
--- =====================================================
 
 INSERT INTO inventory_movements
 (product_id,warehouse_id,quantity_change,movement_type)
@@ -199,10 +179,6 @@ SELECT user_id
 FROM users
 WHERE random() < 0.6;
 
--- =====================================================
--- CART ITEMS
--- =====================================================
-
 INSERT INTO cart_items (cart_id,product_id,quantity)
 SELECT
 cart_id,
@@ -211,24 +187,22 @@ cart_id,
 FROM carts;
 
 -- =====================================================
--- ORDERS (2M)
+-- ORDERS (ENUM SAFE)
 -- =====================================================
 
 INSERT INTO orders (user_id,total_amount,order_status)
 SELECT
 (random()*999999 + 1)::int,
 round((random()*2000 + 50)::numeric,2),
+(
 CASE
 WHEN random() < 0.2 THEN 'pending'
-WHEN random() < 0.4 THEN 'processing'
+WHEN random() < 0.4 THEN 'confirmed'
 WHEN random() < 0.7 THEN 'shipped'
 ELSE 'delivered'
 END
+)::order_status_enum
 FROM generate_series(1,2000000);
-
--- =====================================================
--- ORDER ITEMS (5M)
--- =====================================================
 
 INSERT INTO order_items (order_id,product_id,quantity,price)
 SELECT
@@ -239,7 +213,7 @@ round((random()*1000 + 10)::numeric,2)
 FROM generate_series(1,5000000);
 
 -- =====================================================
--- PAYMENTS
+-- PAYMENTS + REFUNDS
 -- =====================================================
 
 INSERT INTO payments (order_id,payment_method,payment_status,amount)
@@ -250,13 +224,9 @@ WHEN random() < 0.5 THEN 'card'
 WHEN random() < 0.8 THEN 'upi'
 ELSE 'wallet'
 END,
-'completed',
+'completed'::payment_status_enum,
 total_amount
 FROM orders;
-
--- =====================================================
--- REFUNDS
--- =====================================================
 
 INSERT INTO refunds (payment_id,refund_amount,refund_reason)
 SELECT
@@ -267,46 +237,38 @@ FROM payments
 WHERE random() < 0.05;
 
 -- =====================================================
--- SHIPMENTS
+-- SHIPPING
 -- =====================================================
 
 INSERT INTO shipments (order_id,warehouse_id,shipment_status)
 SELECT
 order_id,
 (random()*19 + 1)::int,
-'processing'
+'processing'::shipment_status_enum
 FROM orders;
-
--- =====================================================
--- SHIPMENT TRACKING
--- =====================================================
 
 INSERT INTO shipment_tracking (shipment_id,status,location)
 SELECT
 shipment_id,
 CASE
 WHEN random() < 0.3 THEN 'processing'
-WHEN random() < 0.6 THEN 'in transit'
+WHEN random() < 0.6 THEN 'in_transit'
 ELSE 'delivered'
 END,
 'City ' || (random()*20)::int
 FROM shipments;
 
 -- =====================================================
--- REVIEWS (500K)
+-- REVIEWS
 -- =====================================================
 
 INSERT INTO reviews (user_id,product_id,rating,review_text)
 SELECT
 (random()*999999 + 1)::int,
 (random()*199999 + 1)::int,
-(random()*4 + 1)::int,
+floor(random()*5 + 1)::int,
 'Great product!'
 FROM generate_series(1,500000);
-
--- =====================================================
--- REVIEW VOTES
--- =====================================================
 
 INSERT INTO review_votes (review_id,user_id,vote_type)
 SELECT
@@ -319,7 +281,7 @@ END
 FROM generate_series(1,800000);
 
 -- =====================================================
--- PRODUCT VIEWS (3M)
+-- ANALYTICS
 -- =====================================================
 
 INSERT INTO product_views (user_id,product_id)
@@ -328,12 +290,87 @@ SELECT
 (random()*199999 + 1)::int
 FROM generate_series(1,3000000);
 
--- =====================================================
--- SEARCH LOGS (2M)
--- =====================================================
-
 INSERT INTO search_logs (user_id,search_query)
 SELECT
 (random()*999999 + 1)::int,
 'search term ' || (random()*1000)::int
 FROM generate_series(1,2000000);
+
+-- =====================================================
+-- AI TABLES
+-- =====================================================
+
+INSERT INTO product_metadata (product_id, metadata)
+SELECT
+product_id,
+jsonb_build_object(
+'brand', 'Brand ' || (random()*10)::int,
+'color', CASE
+WHEN random() < 0.3 THEN 'red'
+WHEN random() < 0.6 THEN 'blue'
+ELSE 'black'
+END,
+'rating', round((random()*5)::numeric,2)
+)
+FROM products;
+
+INSERT INTO system_events (user_id, event_type, event_data)
+SELECT
+(random()*999999 + 1)::int,
+CASE
+WHEN random() < 0.5 THEN 'view'
+WHEN random() < 0.8 THEN 'cart'
+ELSE 'purchase'
+END,
+jsonb_build_object('product_id', (random()*199999 + 1)::int)
+FROM generate_series(1,2000000);
+
+INSERT INTO user_features
+SELECT
+user_id,
+(random()*50)::int,
+(random()*50000)::numeric,
+(random()*2000)::numeric,
+(random()*100)::int
+FROM users;
+
+INSERT INTO product_features
+SELECT
+product_id,
+random()*100,
+random()*5,
+(random()*10000)::int
+FROM products;
+
+INSERT INTO product_relationships (product_a, product_b, relation_type)
+SELECT
+(random()*199999 + 1)::int,
+(random()*199999 + 1)::int,
+'frequently_bought'
+FROM generate_series(1,500000);
+
+INSERT INTO product_metrics_daily
+(product_id, views, purchases, revenue, metric_date)
+SELECT
+product_id,
+(random()*1000)::int,
+(random()*200)::int,
+(random()*10000)::numeric,
+CURRENT_DATE - (random()*30)::int
+FROM products;
+
+INSERT INTO user_recommendations (user_id, product_id, score, generated_at)
+SELECT
+(random()*999999 + 1)::int,
+(random()*199999 + 1)::int,
+random(),
+CURRENT_TIMESTAMP
+FROM generate_series(1,1000000);
+
+-- =====================================================
+-- FULL TEXT SEARCH VECTOR
+-- =====================================================
+
+UPDATE products
+SET search_vector =
+to_tsvector('english', product_name || ' ' || COALESCE(description,''));
