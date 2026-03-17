@@ -190,24 +190,35 @@ CREATE TABLE cart_items (
 
 
 -- =====================================================
--- 7. ORDER SYSTEM
+-- 7. ORDER SYSTEM (PARTITIONED)
 -- =====================================================
 
 CREATE TABLE orders (
-    order_id     BIGSERIAL PRIMARY KEY,
+    order_id     BIGSERIAL,
     user_id      BIGINT NOT NULL REFERENCES users(user_id) ON DELETE RESTRICT,
-    order_date   TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    order_date   TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     order_status order_status_enum DEFAULT 'pending',
     total_amount NUMERIC(12,2),
-    updated_at   TIMESTAMP
-);
+    updated_at   TIMESTAMP,
+
+    PRIMARY KEY (order_id, order_date)
+) PARTITION BY RANGE (order_date);
+
+-- Yearly partitions
+CREATE TABLE orders_2024 PARTITION OF orders FOR VALUES FROM ('2024-01-01') TO ('2025-01-01');
+CREATE TABLE orders_2025 PARTITION OF orders FOR VALUES FROM ('2025-01-01') TO ('2026-01-01');
+CREATE TABLE orders_2026 PARTITION OF orders FOR VALUES FROM ('2026-01-01') TO ('2027-01-01');
 
 CREATE TABLE order_items (
     order_item_id BIGSERIAL PRIMARY KEY,
-    order_id      BIGINT NOT NULL REFERENCES orders(order_id) ON DELETE CASCADE,
+    order_id      BIGINT NOT NULL,
+    order_date    TIMESTAMP NOT NULL,
     product_id    BIGINT NOT NULL REFERENCES products(product_id) ON DELETE RESTRICT,
     quantity      INT NOT NULL CHECK (quantity > 0),
-    price         NUMERIC(10,2) NOT NULL CHECK (price > 0)
+    price         NUMERIC(10,2) NOT NULL CHECK (price > 0),
+
+    CONSTRAINT fk_order_items_order
+        FOREIGN KEY (order_id, order_date) REFERENCES orders(order_id, order_date) ON DELETE CASCADE
 );
 
 
@@ -217,12 +228,16 @@ CREATE TABLE order_items (
 
 CREATE TABLE payments (
     payment_id     BIGSERIAL PRIMARY KEY,
-    order_id       BIGINT NOT NULL REFERENCES orders(order_id) ON DELETE CASCADE,
+    order_id       BIGINT NOT NULL,
+    order_date     TIMESTAMP NOT NULL,
     payment_method TEXT NOT NULL,
     payment_status payment_status_enum DEFAULT 'pending',
     amount         NUMERIC(12,2) NOT NULL CHECK (amount > 0),
     payment_date   TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at     TIMESTAMP
+    updated_at     TIMESTAMP,
+
+    CONSTRAINT fk_payments_order
+        FOREIGN KEY (order_id, order_date) REFERENCES orders(order_id, order_date) ON DELETE CASCADE
 );
 
 CREATE TABLE refunds (
@@ -240,11 +255,15 @@ CREATE TABLE refunds (
 
 CREATE TABLE shipments (
     shipment_id     BIGSERIAL PRIMARY KEY,
-    order_id        BIGINT NOT NULL REFERENCES orders(order_id) ON DELETE CASCADE,
+    order_id        BIGINT NOT NULL,
+    order_date      TIMESTAMP NOT NULL,
     warehouse_id    INT REFERENCES warehouses(warehouse_id) ON DELETE SET NULL,
     shipment_status shipment_status_enum DEFAULT 'processing',
     shipped_date    TIMESTAMP,
-    delivered_date  TIMESTAMP
+    delivered_date  TIMESTAMP,
+
+    CONSTRAINT fk_shipments_order
+        FOREIGN KEY (order_id, order_date) REFERENCES orders(order_id, order_date) ON DELETE CASCADE
 );
 
 CREATE TABLE shipment_tracking (
@@ -296,12 +315,19 @@ CREATE TABLE search_logs (
 );
 
 CREATE TABLE system_events (
-    event_id   BIGSERIAL PRIMARY KEY,
+    event_id   BIGSERIAL,
     user_id    BIGINT REFERENCES users(user_id) ON DELETE SET NULL,
     event_type TEXT NOT NULL,
     event_data JSONB,
-    event_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+    event_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    PRIMARY KEY (event_id, event_time)
+) PARTITION BY RANGE (event_time);
+
+-- Yearly partitions for events
+CREATE TABLE events_2024 PARTITION OF system_events FOR VALUES FROM ('2024-01-01') TO ('2025-01-01');
+CREATE TABLE events_2025 PARTITION OF system_events FOR VALUES FROM ('2025-01-01') TO ('2026-01-01');
+CREATE TABLE events_2026 PARTITION OF system_events FOR VALUES FROM ('2026-01-01') TO ('2027-01-01');
 
 
 -- =====================================================

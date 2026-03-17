@@ -4,9 +4,15 @@
 -- Generates ~15M+ synthetic rows across all tables.
 -- Uses generate_series(), RANDOM(), JSONB, and vector simulation.
 --
--- Run AFTER: schema.sql, indexes.sql (or partitions.sql if using partitions)
+-- Run AFTER: schema.sql and indexes.sql
 -- ⏱️  Execution time: several minutes due to dataset scale.
 -- ============================================================
+
+-- Disable user triggers during bulk insert to prevent O(N^2) slowdowns 
+-- and premature inventory deduction errors.
+ALTER TABLE users DISABLE TRIGGER user;
+ALTER TABLE products DISABLE TRIGGER user;
+ALTER TABLE order_items DISABLE TRIGGER user;
 
 
 -- =====================================================
@@ -376,12 +382,11 @@ FROM generate_series(1, 1000000);
 -- Populate 384-dimensional vectors for all products.
 -- In production, these come from an embedding model (e.g. MiniLM).
 
-UPDATE products
+UPDATE products p
 SET embedding = (
-    SELECT ARRAY(
-        SELECT RANDOM()
-        FROM generate_series(1, 384)
-    )::vector
+    SELECT array_agg(random())::vector
+    FROM generate_series(1, 384) gs
+    WHERE p.product_id IS NOT NULL -- Forces subquery to evaluate uniquely per row
 );
 
 
@@ -394,3 +399,8 @@ UPDATE products
 SET search_vector = to_tsvector('english',
     COALESCE(product_name, '') || ' ' || COALESCE(description, '')
 );
+
+-- Re-enable triggers
+ALTER TABLE users ENABLE TRIGGER user;
+ALTER TABLE products ENABLE TRIGGER user;
+ALTER TABLE order_items ENABLE TRIGGER user;

@@ -490,27 +490,21 @@ psql -U postgres -d ecommerce_platform -c "CREATE EXTENSION IF NOT EXISTS vector
 psql -U postgres -d ecommerce_platform -f schema.sql
 ```
 
-### 📂 Step 4 — Apply Partitioning (Optional)
+> ⚠️ The `schema.sql` file natively builds high-volume tables (`orders`, `system_events`) as **range-partitioned tables** for performance.
 
-```bash
-psql -U postgres -d ecommerce_platform -f partitions.sql
-```
-
-> ⚠️ This drops and recreates `orders`, `order_items`, `payments`, `shipments`, and `system_events` as partitioned tables. Run **before** seeding.
-
-### 🔧 Step 5 — Install Triggers
+### 🔧 Step 4 — Install Triggers
 
 ```bash
 psql -U postgres -d ecommerce_platform -f triggers.sql
 ```
 
-### ⚡ Step 6 — Create Indexes
+### ⚡ Step 5 — Create Indexes
 
 ```bash
 psql -U postgres -d ecommerce_platform -f indexes.sql
 ```
 
-### 🌱 Step 7 — Seed the Dataset
+### 🌱 Step 6 — Seed the Dataset
 
 ```bash
 psql -U postgres -d ecommerce_platform -f seed.sql
@@ -518,19 +512,19 @@ psql -U postgres -d ecommerce_platform -f seed.sql
 
 > ⏱️ This generates **15M+ records** including vector embeddings. Expect **several minutes** of execution time.
 
-### 📊 Step 8 — Create Materialized Views
+### 📊 Step 7 — Create Materialized Views
 
 ```bash
 psql -U postgres -d ecommerce_platform -f materialized_views.sql
 ```
 
-### 🔍 Step 9 — Run Analytics
+### 🔍 Step 8 — Run Analytics
 
 ```bash
 psql -U postgres -d ecommerce_platform -f analytics.sql
 ```
 
-### 🧠 Step 10 — Run AI Queries
+### 🧠 Step 9 — Run AI Queries
 
 ```bash
 psql -U postgres -d ecommerce_platform -f ai_queries.sql
@@ -678,9 +672,8 @@ LIMIT 10;
 project-2-ecommerce-database/
 │
 ├── 📄 setup_database.sql        → Create DB + enable pgvector
-├── 📄 schema.sql                → 30 tables with constraints & AI columns
+├── 📄 schema.sql                → 30 tables with constraints & AI columns (natively partitioned)
 ├── 📄 indexes.sql               → B-Tree, GIN, IVFFLAT indexes
-├── 📄 partitions.sql            → Range partitioning (orders + events)
 ├── 📄 triggers.sql              → 6 automated trigger functions
 ├── 📄 seed.sql                  → 15M+ synthetic records + vector embeddings
 ├── 📄 materialized_views.sql    → 4 pre-computed dashboard views
@@ -692,7 +685,7 @@ project-2-ecommerce-database/
 
 **Execution order:**
 ```
-setup_database → schema → partitions (optional) → triggers → indexes → seed → materialized_views → analytics → ai_queries
+setup_database → schema → triggers → indexes → seed → materialized_views → analytics → ai_queries
 ```
 
 ---
