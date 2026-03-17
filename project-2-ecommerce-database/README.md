@@ -63,7 +63,7 @@ flowchart TD
 
     %% 2. API LAYER
     subgraph L2 [🌐 API Layer]
-        API[FastAPI / Backend Endpoints\nGET /search | POST /order | POST /events]:::api
+        API[FastAPI / Backend Endpoints\nGET /search , POST /order , POST /events]:::api
     end
 
     %% 3. CACHE LAYER
