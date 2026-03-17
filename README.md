@@ -29,7 +29,7 @@ Each project operates as a fully functional, highly documented system mimicking 
 | # | Project | Domain | Complexity | Status |
 |:-:|:--------|:-------|:-----------|:------:|
 | 1 | 🎓 **[Student Management System](./project-1-student-management-basic/)** | University Academics | ⭐⭐ | ✅ Complete |
-| 2 | 🛒 **[AI E-Commerce Platform](./project-2-ecommerce-database/)** | Online Retail + AI | ⭐⭐⭐⭐⭐ | ✅ Complete |
+| 2 | 🛒 **[AI E-Commerce Platform](./project-2-ecommerce-database/)** | Online Retail + AI | ⭐⭐⭐⭐ | ✅ Complete |
 | 3 | 🤖 **Agent Memory Database** | AI Memory Systems | ⭐⭐⭐⭐⭐ | 🔜 Coming Soon |
 
 ---

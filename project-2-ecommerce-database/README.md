@@ -744,7 +744,7 @@ This platform serves as a flexible foundation. As scale dictates, the architectu
   </tr>
   <tr>
     <td><strong>🧠 AI / Vector</strong></td>
-    <td><code>vector(384)</code> · <code><-></code> · <code>AVG(embedding)</code> · <code>IVFFLAT</code> · Hybrid scoring</td>
+    <td><code>vector(384)</code> · <code>&lt;-&gt;</code> · <code>AVG(embedding)</code> · <code>IVFFLAT</code> · Hybrid scoring</td>
   </tr>
 </table>
 
@@ -794,7 +794,7 @@ setup_database → schema → triggers → indexes → seed → materialized_vie
 | # | Project | Domain | Complexity | Status |
 |:-:|:--------|:-------|:-----------|:------:|
 | 1 | 🎓 **Student Management System** | University Academics | ⭐⭐ | ✅ Complete |
-| 2 | 🛒 **AI E-Commerce Platform** | Online Retail + AI | ⭐⭐⭐⭐⭐ | ✅ Complete |
+| 2 | 🛒 **AI E-Commerce Platform** | Online Retail + AI | ⭐⭐⭐⭐ | ✅ Complete |
 | 3 | 🤖 **Agent Memory Database** | AI Memory Systems | ⭐⭐⭐⭐⭐ | 🔜 Coming Soon |
 
 ---

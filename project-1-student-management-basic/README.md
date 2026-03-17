@@ -499,11 +499,11 @@ project-1-student-management-basic/
 
 This project is the **first module** in a progressive SQL mastery series:
 
-| # | Project | Domain | Status |
-|:-:|:--------|:-------|:------:|
-| 1 | 🎓 **Student Management System** | University Academics | ✅ Complete |
-| 2 | 🛒 **AI E-Commerce Platform** | Online Retail + AI | ✅ Complete |
-| 3 | 🤖 **Agent Memory Database** | AI Memory Systems | 🔜 Coming Soon |
+| # | Project | Domain | Complexity | Status |
+|:-:|:--------|:-------|:-----------|:------:|
+| 1 | 🎓 **Student Management System** | University Academics | ⭐⭐ | ✅ Complete |
+| 2 | 🛒 **AI E-Commerce Platform** | Online Retail + AI | ⭐⭐⭐⭐ | ✅ Complete |
+| 3 | 🤖 **Agent Memory Database** | AI Memory Systems | ⭐⭐⭐⭐⭐ | 🔜 Coming Soon |
 
 > Each project builds on the skills learned in the previous one — progressing from foundational schema design to advanced analytical systems.
 
