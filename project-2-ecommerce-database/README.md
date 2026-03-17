@@ -42,50 +42,69 @@
 
 ---
 
-## 🏛️ System Architecture
+## 🏛️ System Architecture & Data Flow
 
-This platform implements a **layered data architecture** similar to production e-commerce systems:
+This platform implements a **layered data architecture** typical of production e-commerce systems, blending traditional relational processing with modern vector AI capabilities.
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                     APPLICATION LAYER                           │
-│         Users · Sellers · Products · Cart · Orders              │
-├─────────────────────────────────────────────────────────────────┤
-│                     PROCESSING LAYER                            │
-│     Triggers · Inventory Automation · Order Validation          │
-├─────────────────────────────────────────────────────────────────┤
-│                     ANALYTICS LAYER                             │
-│   Materialized Views · Window Functions · Conversion Funnels    │
-├─────────────────────────────────────────────────────────────────┤
-│                     PERFORMANCE LAYER                           │
-│      B-Tree Indexes · GIN (JSONB/FTS) · Table Partitioning      │
-├─────────────────────────────────────────────────────────────────┤
-│                     AI INTELLIGENCE LAYER                       │
-│   pgvector · Semantic Search · Hybrid Search · Recommendations  │
-├─────────────────────────────────────────────────────────────────┤
-│                     STORAGE LAYER                               │
-│         PostgreSQL · ENUMs · JSONB · vector(384)                │
-└─────────────────────────────────────────────────────────────────┘
-```
+```mermaid
+flowchart TB
+    %% Cinematic Styling
+    classDef core fill:#0f172a,stroke:#38bdf8,stroke-width:2px,color:#fff,shadow:shadow
+    classDef ai fill:#312e81,stroke:#a855f7,stroke-width:2px,color:#fff,shadow:shadow
+    classDef db fill:#064e3b,stroke:#34d399,stroke-width:2px,color:#fff,shadow:shadow
+    classDef analytics fill:#7f1d1d,stroke:#f87171,stroke-width:2px,color:#fff,shadow:shadow
+    classDef user fill:#1e293b,stroke:#cbd5e1,stroke-width:2px,color:#fff,shadow:shadow
 
-### Data Flow
+    %% User Interaction Layer
+    subgraph UI [📱 User Interaction Layer]
+        U((👤 User Browsing)):::user -->|Searches| S[🔍 Semantic Search]:::user
+        U -->|Clicks| V[👀 Product Views]:::user
+        U -->|Buys| C[🛒 Checkout]:::user
+    end
 
-```
-User Registration → Browse Products → Add to Cart → Place Order
-        │                │                              │
-        ▼                ▼                              ▼
-  [user_sessions]   [product_views]              [order_items]
-  [system_events]   [search_logs]                [payments]
-        │                │                       [shipments]
-        ▼                ▼                              │
-  ┌──────────────────────────────────────────────────────┘
-  │                  ANALYTICS ENGINE
-  │   Revenue · CLV · Conversion · Seller Performance
-  ├──────────────────────────────────────────────────────┐
-  │                  AI LAYER                            │
-  │   Vector Similarity · Hybrid Search · Taste Profile  │
-  │   Collaborative Filtering · Recommendations          │
-  └──────────────────────────────────────────────────────┘
+    %% Application API & Logic
+    subgraph Logic [⚙️ Core E-Commerce Logic]
+        S -->|Query| Q_Parser[🔤 Query Parser]:::core
+        V -->|Event| E_Engine[📡 Event Engine]:::core
+        C -->|Transaction| O_Engine[💳 Order Engine]:::core
+    end
+
+    %% Database Storage & Processing
+    subgraph DB [🗄️ PostgreSQL Storage & Processing Layer]
+        Q_Parser -->|Full-Text| FTS[(tsvector Search)]:::db
+        O_Engine -->|Insert| Orders[(Orders Table\nPartitioned)]:::db
+        O_Engine -->|Trigger| Inv_Trigger[⚡ Trigger:\nAuto-Deduct Stock]:::db
+        Inv_Trigger --> Inventory[(Inventory Table)]:::db
+    end
+
+    %% AI & Vector Layer
+    subgraph AI_Layer [🧠 AI & Intelligence Layer pgvector]
+        Q_Parser -->|Vectorize| Q_Vec[Array Query Vector]:::ai
+        Q_Vec -->|Cosine Distance <->| Prod_Vec[(Products Table\nvector: 384-dim)]:::ai
+        FTS -.->|Combine ts_rank| Hybrid[🤖 Hybrid Search Engine]:::ai
+        Prod_Vec -.->|Combine similarity| Hybrid
+        Hybrid -->|Results| Rec_Engine[🎯 Recommendation Engine]:::ai
+        
+        Orders -->|Purchase History| Taste[👤 User Taste Mapping]:::ai
+        Taste -->|Centroid AVG| User_Vec[User Profile Vector]:::ai
+        User_Vec -->|Cosine Distance <->| Prod_Vec
+    end
+
+    %% Analytics Layer
+    subgraph Analytics_Layer [📊 Business Intelligence]
+        Orders -->|Extract Daily| ETL[⏳ pg_cron Jobs]:::analytics
+        ETL -->|REFRESH CONCURRENTLY| MV_LTV[(User LTV View)]:::analytics
+        ETL -->|REFRESH CONCURRENTLY| MV_Rev[(Seller Revenue View)]:::analytics
+        E_Engine -->|JSONB Log| Events[(System Events\nPartitioned)]:::analytics
+    end
+
+    %% Flow connections
+    Rec_Engine ==>|JSON Response| U
+    MV_LTV -->|Dashboards| Admin([👨‍💼 Admin Dashboards]):::user
+    Events -->|Funnel Analysis| Admin
+
+    %% Styling linkages
+    linkStyle default stroke:#64748b,stroke-width:2px,fill:none
 ```
 
 ---
@@ -316,19 +335,28 @@ All views have `UNIQUE` indexes for `REFRESH MATERIALIZED VIEW CONCURRENTLY` sup
 
 ## 🧠 AI & Data Intelligence Layer ⭐
 
-This is what separates this project from typical SQL practice projects.
+## 🧠 AI & Data Intelligence Layer ⭐
+
+This is what separates this project from typical SQL practice databases. By bringing the **AI directly into the database**, we eliminate the need for complex external microservices and data pipelines. 
+
+### How Traditional SQL and AI Work Together
+
+Think of traditional SQL as a **highly-organized librarian**. If you ask for a book with "Smartphone" in the title, it instantly checks the index and gives you exactly what you asked for. It's perfectly accurate, but taking things *too literally*. If you ask for a "mobile communication device", the traditional SQL librarian will return zero results because those exact words aren't in the title.
+
+**AI Embeddings act as a mind reader.** They don't look at words; they look at **meaning**. 
+When an AI looks at "mobile communication device", it translates those words into a string of 384 numbers (a vector). It then looks at the database and finds products that have similar math coordinates. It realizes that a "smartphone" lives in the exact same mathematical neighborhood as a "mobile communication device."
+
+**The Magic:** By combining both in PostgreSQL, we get the absolute truth and speed of the SQL librarian, combined with the context and intuition of the AI.
 
 ### What is pgvector?
 
-[pgvector](https://github.com/pgvector/pgvector) is a PostgreSQL extension that adds a native `vector` data type and distance operators — enabling **semantic similarity search** directly in SQL.
+[pgvector](https://github.com/pgvector/pgvector) is a PostgreSQL extension that adds a native `vector` data type and distance operators. Instead of storing just numbers or text, we can store a product's "brain profile" directly in a column.
 
-Every product has a `vector(384)` column (compatible with MiniLM-class embedding models) that encodes the **meaning** of that product as a 384-dimensional vector.
+Every product has a `vector(384)` column (compatible with MiniLM-class embedding models) that encodes the **meaning** of that product.
 
-### Why Embeddings Matter
+### Vector Similarity Search (Semantic Search)
 
-Traditional search is keyword-based: searching "phone" matches only rows containing the word "phone." Vector embeddings encode **semantic meaning**, so a search for "mobile device" can find "smartphone" even without keyword overlap.
-
-### Vector Similarity Search
+When a user searches, we don't just use `LIKE '%keyword%'`. We use vector math to find the closest match in meaning.
 
 ```sql
 -- Find the 10 most similar products to product_id = 1
@@ -341,9 +369,12 @@ ORDER BY p1.embedding <-> p2.embedding
 LIMIT 10;
 ```
 
-The `<->` operator computes cosine distance. Lower distance = higher similarity.
+> **How it works:** The `<->` operator computes the "cosine distance" between two vectors. If the distance is small (close to 0), the concepts are practically identical. If it's large, they are unrelated. We order by this distance to put the best matches at the top.
 
-### Hybrid Search (Semantic + Keyword)
+### Hybrid Search (The Ultimate Combo)
+
+Relying *only* on AI can sometimes cause hallucinations (matching a phone case when the user wants an actual phone). Relying *only* on text causes zero-results. 
+**We combine them.** We give 70% weight to the AI's intuition (semantic), and 30% weight to the SQL librarian's exact keyword matches (`ts_rank`).
 
 ```sql
 -- 70% semantic + 30% keyword relevance
@@ -356,27 +387,30 @@ WHERE search_vector @@ to_tsquery('phone')
 ORDER BY hybrid_score DESC LIMIT 10;
 ```
 
-This combines the precision of keyword search with the recall of semantic search — the same approach used by modern search engines.
+This is the exact same algorithmic foundation used by modern search engines like Google and Amazon.
 
-### User Taste Profile Recommendations
+### User "Taste Profile" Recommendations
+
+How does Netflix or Spotify know what you like? They build a **taste profile**. We do this purely in SQL using vector averages.
 
 ```sql
--- Compute user's "taste vector" from purchase history
--- Then find products closest in embedding space
+-- Step 1: Find all products a user has purchased
+-- Step 2: Average their vectors together to create a single "Taste Vector"
+-- Step 3: Find new products that are mathematically close to that Taste Vector
 WITH user_embedding AS (
     SELECT AVG(p.embedding) AS taste_vector
-    FROM products p
-    WHERE p.product_id IN (
-        SELECT oi.product_id FROM order_items oi
-        JOIN orders o ON oi.order_id = o.order_id
-        WHERE o.user_id = 100
-    )
+    FROM orders o
+    JOIN order_items oi ON o.order_id = oi.order_id
+    JOIN products p ON oi.product_id = p.product_id
+    WHERE o.user_id = 100
 )
 SELECT p.product_name, 1 - (p.embedding <-> taste_vector) AS score
 FROM products p, user_embedding
 ORDER BY p.embedding <-> taste_vector
 LIMIT 10;
 ```
+
+> **How it works:** If you buy 3 Sci-Fi movies, we take the vectors for those 3 movies and use the `AVG()` SQL function on them. This creates a "center point" (centroid) in the vector space representing your personal taste. We then retrieve items closest to that center point!
 
 ### Event Tracking System
 
