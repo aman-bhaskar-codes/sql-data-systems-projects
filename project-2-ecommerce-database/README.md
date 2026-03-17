@@ -171,6 +171,27 @@ User Action (view, click, cart)
 
 ---
 
+## 💭 System Design & Architecture Planning
+
+Building a FAANG-level system requires explicit boundary definitions. Here is the core reasoning behind the layered architecture defined above:
+
+### 1. The OLTP vs OLAP Separation
+In traditional applications, developers query the same tables for user checkouts (Transactions) and admin dashboards (Analytics). At scale, calculating `SUM(revenue)` on a 10M-row `orders` table during peak traffic will crash the database. 
+**The Solution:** We explicitly separate workloads. 
+- **OLTP (Online Transaction Processing):** Handled by tightly normalized, B-Tree indexed tables (`orders`, `inventory`). Built for high-speed writes and strict ACID compliance.
+- **OLAP (Online Analytical Processing):** Handled by **Materialized Views**. We use `pg_cron` to construct heavy dashboard queries asynchronously in the background. When an admin views the dashboard, Postgres reads from the pre-computed view instantly (`O(1)`), safeguarding the checkout servers.
+
+### 2. Event-Driven Decoupling
+E-commerce platforms generate 100x more "events" (clicks, searches, views) than actual purchases. Writing these directly to standard relational tables creates severe bottlenecking.
+**The Solution:** The Event Pipeline. Events are caught by the API and ideally buffered into a queue (like Kafka or Redis Pub/Sub). A consumer then batch-inserts these into a **Range-Partitioned** `system_events` table using `JSONB`. 
+Why `JSONB`? Because events are fluid. A `view` event only needs a `product_id`, but a `search` event needs a `search_query` and `filters_applied`. JSONB prevents us from having dozens of sparse schema columns.
+
+### 3. AI as a Native Database Citizen
+Historically, executing a hybrid search required duplicating the PostgreSQL database into Elasticsearch for keyword-matching, and into Pinecone for vector-matching, then writing application logic to stitch them together.
+**The Solution:** By using `pgvector` and `tsvector` within the same transaction layer, we keep a single source of truth. We can run semantic similarity scoring **coupled seamlessly with** strict relational constraints (e.g., `WHERE product.in_stock = TRUE`). No data desynchronization, no complex microservices. This is the future of data architecture.
+
+---
+
 ## 🧠 What You Will Learn
 
 | # | Skill Area | What You'll Master |
@@ -394,8 +415,6 @@ CREATE TABLE orders_2024 PARTITION OF orders
 All views have `UNIQUE` indexes for `REFRESH MATERIALIZED VIEW CONCURRENTLY` support.
 
 ---
-
-## 🧠 AI & Data Intelligence Layer ⭐
 
 ## 🧠 AI & Data Intelligence Layer ⭐
 
